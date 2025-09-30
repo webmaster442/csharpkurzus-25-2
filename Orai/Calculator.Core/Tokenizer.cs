@@ -1,24 +1,24 @@
 ﻿
 using System.Globalization;
 
-using Calculator.Core.Operators;
+using Calculator.Core.Tokens;
+using Calculator.Core.Tokens.Operators;
 
 namespace Calculator.Core;
 
 public class Tokenizer : ITokenizer
 {
-    private readonly INumberStack _stack;
     private readonly Dictionary<string, IToken> _table;
 
-    public Tokenizer(INumberStack stack)
+    public Tokenizer()
     {
-        _stack = stack;
         _table = new Dictionary<string, IToken>()
         {
             { "+", new AddOperator() },
             { "-", new SubtractOperator() },
             { "*", new MultiplyOperator() },
             { "/", new DivideOperator() },
+            { "sin", new SinusFunction() },
         };
     }
 
@@ -36,7 +36,7 @@ public class Tokenizer : ITokenizer
             }
             else if (double.TryParse(part, CultureInfo.InvariantCulture, out double number))
             {
-                _stack.Push(number);
+                tokens.Add(new NumberToken(number));
             }
             else
             {

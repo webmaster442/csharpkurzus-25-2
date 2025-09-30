@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Calculator.Core;
+﻿namespace Calculator.Core;
 
 public class Result<TSucces, TError>
 {
@@ -32,10 +25,12 @@ public class Result<TSucces, TError>
         if (IsSuccess && _success is not null)
         {
             successAction(_success);
+            return;
         }
         else if (_error is not null)
         {
             errorAction(_error);
+            return;
         }
         throw new InvalidOperationException("Result is in an invalid state.");
     }

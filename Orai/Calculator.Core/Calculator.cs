@@ -1,4 +1,6 @@
-﻿namespace Calculator.Core;
+﻿using Calculator.Core.Tokens;
+
+namespace Calculator.Core;
 
 public class Calculator : ICalculator
 {
