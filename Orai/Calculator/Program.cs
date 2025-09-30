@@ -2,6 +2,14 @@
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        try
+        {
+            Console.WriteLine("Hello, World!");
+        }
+        catch (Exception ex)
+        {
+            // Pokémon exception handling
+            Console.WriteLine(ex.Message);
+        }
     }
 }
