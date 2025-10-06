@@ -2,26 +2,17 @@
 
 namespace Calculator.Core;
 
-public class Calculator : ICalculator
+internal class Calculator(ITokenizer tokenizer, INumberStack numberStack) : ICalculator
 {
-    private readonly ITokenizer _tokenizer;
-    private readonly INumberStack _numberStack;
-
-    public Calculator(ITokenizer tokenizer, INumberStack numberStack)
-    {
-        _tokenizer = tokenizer;
-        _numberStack = numberStack;
-    }
-
     public Result<double, string> Calculate(string expression)
     {
         try
         {
-            foreach (IToken token in _tokenizer.Tokenize(expression))
+            foreach (IToken token in tokenizer.Tokenize(expression))
             {
-                token.Apply(_numberStack);
+                token.Apply(numberStack);
             }
-            return new Result<double, string>(_numberStack.Pop());
+            return new Result<double, string>(numberStack.Pop());
         }
         catch (InvalidOperationException ex)
         {

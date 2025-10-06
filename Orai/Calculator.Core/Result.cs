@@ -3,9 +3,11 @@
 public class Result<TSucces, TError>
 {
     private readonly TSucces? _success;
+
     private readonly TError? _error;
 
     public bool IsSuccess { get; }
+
     public bool IsError => !IsSuccess;
 
     public Result(TSucces success)
@@ -20,17 +22,15 @@ public class Result<TSucces, TError>
         IsSuccess = false;
     }
 
-    public void Handle(Action<TSucces> successAction, Action<TError> errorAction)
+    public override string ToString()
     {
         if (IsSuccess && _success is not null)
         {
-            successAction(_success);
-            return;
+            return $"{_success}";
         }
         else if (_error is not null)
         {
-            errorAction(_error);
-            return;
+            return $"{_error}";
         }
         throw new InvalidOperationException("Result is in an invalid state.");
     }

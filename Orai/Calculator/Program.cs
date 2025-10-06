@@ -1,15 +1,18 @@
-﻿internal class Program
+﻿using Calculator.Core;
+
+Console.WriteLine("Welcome to the RPN Calculator!");
+Console.Write("> ");
+string expression = Console.ReadLine() ?? string.Empty;
+
+ICalculator calculator = CalculatorFactory.Create();
+
+try
 {
-    private static void Main(string[] args)
-    {
-        try
-        {
-            Console.WriteLine("Hello, World!");
-        }
-        catch (Exception ex)
-        {
-            // Pokémon exception handling
-            Console.WriteLine(ex.Message);
-        }
-    }
+    Result<double, string> result = calculator.Calculate(expression);
+    Console.WriteLine(result);
+}
+catch (Exception ex)
+{
+    // Pokémon exception handling
+    Console.WriteLine(ex.Message);
 }

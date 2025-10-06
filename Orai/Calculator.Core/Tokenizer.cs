@@ -4,9 +4,11 @@ using System.Globalization;
 using Calculator.Core.Tokens;
 using Calculator.Core.Tokens.Operators;
 
+using static System.StringSplitOptions;
+
 namespace Calculator.Core;
 
-public class Tokenizer : ITokenizer
+internal class Tokenizer : ITokenizer
 {
     private readonly Dictionary<string, IToken> _table;
 
@@ -14,36 +16,30 @@ public class Tokenizer : ITokenizer
     {
         _table = new Dictionary<string, IToken>()
         {
-            { "+", new AddOperator() },
-            { "-", new SubtractOperator() },
-            { "*", new MultiplyOperator() },
-            { "/", new DivideOperator() },
-            { "sin", new SinusFunction() },
+            ["+"] = new AddOperator(),
+            ["-"] = new SubtractOperator(),
+            ["*"] = new MultiplyOperator(),
+            ["/"] = new DivideOperator(),
+            ["sin"] = new SinusFunction(),
         };
     }
 
     public IEnumerable<IToken> Tokenize(string expression)
     {
-        List<IToken> tokens = new();
-        string[] parts = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries
-                                               | StringSplitOptions.TrimEntries);
-
-        foreach (string part in parts)
+        foreach (string part in expression.Split(' ', RemoveEmptyEntries | TrimEntries))
         {
-            if (_table.ContainsKey(part))
+            if (_table.TryGetValue(part, out IToken? value))
             {
-                tokens.Add(_table[part]);
+                yield return value;
             }
             else if (double.TryParse(part, CultureInfo.InvariantCulture, out double number))
             {
-                tokens.Add(new NumberToken(number));
+                yield return new NumberToken(number);
             }
             else
             {
                 throw new InvalidOperationException($"Unknown token: {part}");
             }
         }
-
-        return tokens;
     }
 }

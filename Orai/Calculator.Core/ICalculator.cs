@@ -1,6 +1,6 @@
 ﻿namespace Calculator.Core;
 
-internal interface ICalculator
+public interface ICalculator
 {
     Result<double, string> Calculate(string expression);
 }
