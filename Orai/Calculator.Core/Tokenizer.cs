@@ -21,6 +21,13 @@ internal class Tokenizer : ITokenizer
             ["*"] = new MultiplyOperator(),
             ["/"] = new DivideOperator(),
             ["sin"] = new SinusFunction(),
+            ["avg"] = new AverageFunction(),
+            ["max"] = new MaxFunction(),
+            ["min"] = new MinFunction(),
+            ["sum"] = new SumFunction(),
+            ["median"] = new MedianFunction(),
+            ["mode"] = new ModeFunction(),
+            ["rms"] = new RootMeanSquareFunction()
         };
     }
 
